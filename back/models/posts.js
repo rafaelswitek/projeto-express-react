@@ -1,18 +1,41 @@
 const moment = require('moment')
-const connection = require('../infra/connection')
+const repository = require('../repository/post')
 
 class Posts {
-    create(post, res) {
-        const createdAt = moment().format('YYYY-MM-DD HH:MM:SS')
-        const updatedAt = createdAt
-        const sql = 'INSERT INTO posts SET ?'
+    constructor() {
+        this.datetime = moment().format('YYYY-MM-DD HH:mm:ss')
+    }
 
-        connection.query(sql, { ...post, createdAt, updatedAt }, (error, results) => {
-            if (error) {
-                res.status(400).json(error)
-            }
-            res.status(201).json(results)
-        })
+    store(post) {
+        const createdAt = this.datetime
+        const updatedAt = this.datetime
+
+        return repository.create({ ...post, createdAt, updatedAt })
+            .then(result => post)
+    }
+
+    index() {
+        return repository.findAll()
+    }
+
+    show(id) {
+        return repository.findById(id)
+    }
+
+    update(id, post) {
+        const updatedAt = this.datetime
+        const data = { ...post, updatedAt }
+
+        if (data.id) {
+            delete data.id;
+        }
+        return repository.save(id, data)
+            .then(result => data)
+    }
+
+    destroy(id,) {
+        return repository.delete(id)
+            .then(result => id)
     }
 }
 

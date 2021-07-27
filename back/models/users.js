@@ -1,69 +1,41 @@
 const moment = require('moment')
-const connection = require('../infra/connection')
+const repository = require('../repository/user')
 
 class Users {
-    store(user, res) {
-        const createdAt = moment().format('YYYY-MM-DD HH:MM:SS')
-        const updatedAt = createdAt
-        const data = { ...user, createdAt, updatedAt }
-        const sql = 'INSERT INTO users SET ?'
-
-        connection.query(sql, data, (error, results) => {
-            if (error) {
-                res.status(400).json(error)
-            }
-            res.status(201).json(data)
-        })
+    constructor() {
+        this.datetime = moment().format('YYYY-MM-DD HH:MM:SS')
     }
 
-    index(res) {
-        const sql = 'SELECT * FROM users'
+    store(user) {
+        const createdAt = this.datetime
+        const updatedAt = this.datetime
 
-        connection.query(sql, (error, results) => {
-            if (error) {
-                res.status(400).json(error)
-            }
-            res.status(200).json(results)
-        })
+        return repository.create({ ...user, createdAt, updatedAt })
+            .then(result => user)
     }
 
-    show(id, res) {
-        const sql = `SELECT * FROM users WHERE id = ${id}`
-
-        connection.query(sql, (error, results) => {
-            if (error) {
-                res.status(400).json(error)
-            }
-            res.status(200).json(results[0])
-        })
+    index() {
+        return repository.findAll()
     }
 
-    update(id, user, res) {
-        const updatedAt = moment().format('YYYY-MM-DD HH:MM:SS')
+    show(id) {
+        return repository.findById(id)
+    }
+
+    update(id, user) {
+        const updatedAt = this.datetime
         const data = { ...user, updatedAt }
-        const sql = 'UPDATE users SET ? WHERE id = ?'
 
         if (data.id) {
             delete data.id;
         }
-
-        connection.query(sql, [data, id], (error, results) => {
-            if (error) {
-                res.status(400).json(error)
-            }
-            res.status(200).json({ ...data, id })
-        })
+        return repository.save(id, data)
+            .then(result => data)
     }
 
-    destroy(id, res) {
-        const sql = 'DELETE FROM users WHERE id = ?'
-
-        connection.query(sql, id, (error, results) => {
-            if (error) {
-                res.status(400).json(error)
-            }
-            res.status(204).json()
-        })
+    destroy(id,) {
+        return repository.delete(id)
+            .then(result => id)
     }
 }
 
