@@ -11,7 +11,7 @@ connection.connect(error => {
 
     const app = customExpress()
 
-    app.listen(3000, () => {
+    app.listen(3001, () => {
         console.log("Rodando...")
     })
 })
