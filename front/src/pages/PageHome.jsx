@@ -14,7 +14,7 @@ function PageHome() {
         <List>
             {
                 users.map((user) => (
-                    <ListUser user={user} />
+                    <ListUser key={user.id} user={user} />
                 ))
             }
         </List>

@@ -21,7 +21,7 @@ function PagePosts() {
             </Button>
             {
                 posts.map((post) => (
-                    <ListPosts post={post} />
+                    <ListPosts key={post.id} post={post} />
                 ))
             }
         </List>

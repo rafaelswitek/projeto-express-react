@@ -1,6 +1,7 @@
 import { AppBar, IconButton, makeStyles, Toolbar, Typography } from "@material-ui/core";
 import { Home, Sync } from "@material-ui/icons";
 import { Link } from 'react-router-dom';
+import { synchronize } from "../api";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -17,6 +18,11 @@ const useStyles = makeStyles((theme) => ({
 function Menu() {
     const classes = useStyles();
 
+    const syncData = async () => {
+        await synchronize();
+        window.location.reload();
+    }
+
     return (
         <div className={classes.root}>
             <AppBar position="static">
@@ -27,7 +33,7 @@ function Menu() {
                     <Typography variant="h6" className={classes.title}>
                         Listagem de usuarios
                     </Typography>
-                    <IconButton color="inherit">
+                    <IconButton color="inherit" onClick={syncData}>
                         <Sync />
                     </IconButton>
                 </Toolbar>

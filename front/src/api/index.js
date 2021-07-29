@@ -9,3 +9,8 @@ export const get = async(url, setUsers) => {
     const response = await api.get(url);
     setUsers(response.data);
 }
+
+export const synchronize = async() => {
+    await api.get('/synchronize/users');
+    await api.get('/synchronize/posts');
+}
