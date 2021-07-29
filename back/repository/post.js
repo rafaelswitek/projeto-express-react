@@ -21,6 +21,11 @@ class Post {
         return query(sql, id)
     }
 
+    findByUser(id) {
+        const sql = `SELECT * FROM ${this.table} WHERE userId = ?`
+        return query(sql, id)
+    }
+
     save(id, data) {
         const sql = `UPDATE ${this.table} SET ? WHERE id = ?`
         return query(sql, [data, id])
