@@ -1,5 +1,6 @@
 const moment = require('moment')
 const repository = require('../repository/user')
+const postRepository = require('../repository/post')
 
 class Users {
     constructor() {
@@ -36,6 +37,10 @@ class Users {
     destroy(id,) {
         return repository.delete(id)
             .then(result => id)
+    }
+
+    posts(id) {
+        return postRepository.getByUser(id)
     }
 }
 

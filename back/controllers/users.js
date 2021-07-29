@@ -35,4 +35,11 @@ module.exports = app => {
             .then(response => res.status(200).json(response))
             .catch(errors => res.status(400).json(errors))
     })
+
+    app.get('/users/:id/posts', (req, res) => {
+        const id = parseInt(req.params.id)
+        Users.posts(id)
+            .then(response => res.status(200).json(response))
+            .catch(errors => res.status(400).json(errors))
+    })
 }

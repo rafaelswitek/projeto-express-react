@@ -21,7 +21,7 @@ class Post {
         return query(sql, id)
     }
 
-    findByUser(id) {
+    getByUser(id) {
         const sql = `SELECT * FROM ${this.table} WHERE userId = ?`
         return query(sql, id)
     }
